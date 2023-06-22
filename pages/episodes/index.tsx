@@ -1,40 +1,43 @@
+
 import { API } from "../../assets/api/api"
 import { EpisodeType, ResponseType } from "../../assets/api/rick-and-morty-api"
 import { Header } from "../../components/Header/Header"
 import { PageWrapper } from "../../components/PageWrapper/PageWrapper"
 
-export const getStaticProps =async () => {
+export const getServerSideProps = async () => {
     const episodes = await API.rickAndMorty.getEpisodes()
-    return {
-        props: {
-            episodes
+
+    if (!episodes) { 
+        return {
+            notFound:true
         }
-    }      
+    }
+
+    return { props: { episodes } }
 
 }
 
 type PropsType = {
     episodes: ResponseType<EpisodeType>
 }
+const Episodes = ({ episodes }: PropsType) => {
 
-const Episodes = (props: PropsType) => {
-    const {episodes}= props
 
     const episodesList = episodes.results.map(e => (
         <div key={e.id}>
-            <div>{e.characters}</div>
-            <div>{e.name}</div> 
-            
-            
-            </div>
+            {/* <div>{e.characters} </div> */}
+            <div>{e.name}</div>
+
+
+        </div>
     ))
 
-return(
-    <PageWrapper>
-        <Header />
-        {episodesList} 
-    </PageWrapper>
-)
+    return (
+        <PageWrapper>
+            <Header />
+            {episodesList}
+        </PageWrapper>
+    )
 }
 
 export default Episodes
