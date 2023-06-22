@@ -3,6 +3,7 @@ import { API } from "../../assets/api/api"
 import { CharacterType, ResponseType } from "../../assets/api/rick-and-morty-api"
 import { Header } from "../../components/Header/Header"
 import { PageWrapper } from "../../components/PageWrapper/PageWrapper"
+import { CharacterCard } from "../../components/Card/CharacterCard/CharacterCard"
 
 export const getStaticProps =async () => {
     const characters = await API.rickAndMorty.getCharacters()
@@ -22,12 +23,7 @@ const Characters = (props: PropsType) => {
     const {characters}= props
 
     const charactersList = characters.results.map(c => (
-        <div key={c.id}>
-            <Image height= '50' width = '50' src={c.image} alt={c.name} />
-            <div>{c.name}</div> 
-            
-            
-            </div>
+        <CharacterCard key={c.id} character={c} />
     ))
 
 return(

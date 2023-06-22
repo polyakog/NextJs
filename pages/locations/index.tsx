@@ -5,6 +5,7 @@ import { Header } from "../../components/Header/Header"
 import { PageWrapper } from "../../components/PageWrapper/PageWrapper"
 import { useQuery } from '@tanstack/react-query'
 import { QueryClient, dehydrate } from 'react-query';
+import { Card } from "../../components/Card/Card"
 
 
 
@@ -37,13 +38,7 @@ const Locations = () => {
     if (!locations) return null
 
     const locationsList = locations.results.map(l => (
-        <div key={l.id}>
-
-            <div>{l.name}</div>
-            <div>{l.type}</div>
-
-
-        </div>
+        <Card name={l.name} key={l.id} />
     ))
 
     return (
