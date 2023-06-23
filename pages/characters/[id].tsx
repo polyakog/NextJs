@@ -5,6 +5,7 @@ import { PageWrapper } from "../../components/PageWrapper/PageWrapper"
 import { CharacterCard } from "../../components/Card/CharacterCard/CharacterCard"
 import { getLayout } from "../../components/Layout/BaseLayout/BaseLayout"
 import { GetStaticPaths, GetStaticProps } from "next"
+import { useRouter } from "next/router"
 
 export const getStaticPaths: GetStaticPaths =async () => {
     const {results} = await API.rickAndMorty.getCharacters()
@@ -15,7 +16,9 @@ export const getStaticPaths: GetStaticPaths =async () => {
 
     return {
         paths,
-        fallback: false // если нет это параметра
+        // fallback: false // только загружает id первой страницы
+        // fallback: 'blocking' // загружает к первой странице дополнительную страницу по запросу
+        fallback: true
     }
 }
 
@@ -44,6 +47,10 @@ type PropsType = {
 }
 
 const Character = ({ character }: PropsType) => {
+
+    const router = useRouter()
+    if (router.isFallback) return <h1>Loading ...</h1>
+
     return (
         <PageWrapper>
             <CharacterCard key={character.id} character={character} />
