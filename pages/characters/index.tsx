@@ -4,14 +4,15 @@ import { CharacterType, ResponseType } from "../../assets/api/rick-and-morty-api
 import { Header } from "../../components/Header/Header"
 import { PageWrapper } from "../../components/PageWrapper/PageWrapper"
 import { CharacterCard } from "../../components/Card/CharacterCard/CharacterCard"
+import { getLayout } from "../../components/Layout/BaseLayout/BaseLayout"
 
-export const getStaticProps =async () => {
+export const getStaticProps = async () => {
     const characters = await API.rickAndMorty.getCharacters()
     return {
         props: {
             characters
         }
-    }      
+    }
 
 }
 
@@ -20,19 +21,20 @@ type PropsType = {
 }
 
 const Characters = (props: PropsType) => {
-    const {characters}= props
+    const { characters } = props
 
     const charactersList = characters.results.map(c => (
         <CharacterCard key={c.id} character={c} />
     ))
 
-return(
-    <PageWrapper>
-        <Header />
-        {charactersList} 
-    </PageWrapper>
-)
+    return (
+        <PageWrapper>
+            {charactersList}
+        </PageWrapper>
+    )
 
 }
+
+Characters.getLayout = getLayout
 
 export default Characters
